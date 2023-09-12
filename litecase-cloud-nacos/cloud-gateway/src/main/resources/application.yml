@@ -1,0 +1,61 @@
+server:
+  port: 7000
+  servlet:
+    # 参考文章: https://blog.csdn.net/Angry_Mills/article/details/108132203
+    context-path: / # 如果网关项目用的是域名/gateway 转发的话，需要为网关项目加 context-path
+spring:
+  application:
+    name: cloud-gateway
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        enabled: true
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        refresh-enabled: true
+      username: nacos
+      password: 123456
+    gateway:
+      routes:
+        - id: credit-service
+          uri: lb://credit-service # lb://后面的是其他服务注册在nacos上的名称，也就是spring.applicaiton.name
+          predicates:
+            - name: Path
+              args[pattern]: /credit/**
+          filters:
+            - StripPrefix = 1
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - name: Path
+              args[pattern]: /order/**
+          filters:
+            - StripPrefix = 1
+        - id: stock-service
+          uri: lb://stock-service
+          predicates:
+            - name: Path
+              args[pattern]: /stock/**
+          filters:
+            - StripPrefix = 1
+        - id: wms-service
+          uri: lb://wms-service
+          predicates:
+            - name: Path
+              args[pattern]: /wms/**
+          filters:
+            - StripPrefix = 1
+# 开启acutor端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      # 打开端点详情
+      show-details: always

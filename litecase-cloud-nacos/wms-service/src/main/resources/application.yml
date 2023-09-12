@@ -1,8 +1,8 @@
 server:
-  port: 9003
+  port: 9004
 spring:
   application:
-    name: stock-service
+    name: wms-service
   cloud:
     nacos:
       discovery:

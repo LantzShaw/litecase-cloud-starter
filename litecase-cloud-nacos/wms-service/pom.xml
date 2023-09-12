@@ -9,8 +9,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.litecase.order</groupId>
-    <artifactId>order-service</artifactId>
+    <groupId>com.litecase.wms</groupId>
+    <artifactId>wms-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
